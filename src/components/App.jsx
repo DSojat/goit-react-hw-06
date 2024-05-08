@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectNameFilter, selectContacts } from '../redux/selectors';
+import { selectContacts } from '../redux/selectors';
 import { fetchContacts } from '../redux/contactsSlice';
 
 import ContactList from './ContactList/ContactList';
@@ -18,12 +18,6 @@ const contactsArray = [
 function App() {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
-
-  const filter = useSelector(selectNameFilter);
-  const pattern = filter.toLowerCase().trim();
-  const filteredValue = contacts.filter(({ name }) =>
-    name.toLowerCase().includes(pattern)
-  );
 
   useEffect(() => {
     const savedContacts = window.localStorage.getItem('saved-contacts');
@@ -44,7 +38,7 @@ function App() {
       <h1>Phonebook</h1>
       <ContactForm />
       <SearchBox />
-      <ContactList contacts={filteredValue} />
+      <ContactList />
     </div>
   );
 }

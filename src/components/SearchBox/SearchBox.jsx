@@ -3,20 +3,21 @@ import { useDispatch } from 'react-redux';
 import { changeFilter } from '../../redux/filterSlice';
 import css from './SearchBox.module.css';
 
-// const handleFilter = evt => {
-//   dispatch(changeFilter(evt.target.value));
-// };
-
 const SearchBox = () => {
-  const searchId = useId();
   const dispatch = useDispatch();
+  const searchId = useId();
+
+  const handleFilter = evt => {
+    dispatch(changeFilter(evt.target.value));
+  };
+
   return (
     <div className={css.searchBox}>
       <label htmlFor={searchId}>Find contacts by name</label>
       <input
         className={css.searchField}
         type="text"
-        onChange={evt => dispatch(changeFilter(evt.target.value))}
+        onChange={handleFilter}
         id={searchId}
       />
     </div>
