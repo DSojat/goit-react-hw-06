@@ -1,13 +1,8 @@
 import { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getFilterValue, getContacts } from '../redux/selectors';
-import { setFilterValue } from '../redux/filterSlice';
-import {
-  addContactValue,
-  deleteContactValue,
-  selectContacts,
-} from '../redux/contactsSlice';
+import { selectNameFilter, selectContacts } from '../redux/selectors';
+import { fetchContacts } from '../redux/contactsSlice';
 
 import ContactList from './ContactList/ContactList';
 import SearchBox from './SearchBox/SearchBox';
@@ -22,33 +17,22 @@ const contactsArray = [
 
 function App() {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilterValue);
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
-  const handleFilter = evt => {
-    dispatch(setFilterValue(evt.target.value));
-  };
+  const filter = useSelector(selectNameFilter);
   const pattern = filter.toLowerCase().trim();
   const filteredValue = contacts.filter(({ name }) =>
     name.toLowerCase().includes(pattern)
   );
 
-  const addContact = newContact => {
-    dispatch(addContactValue(newContact));
-  };
-
-  const deleteContact = contactId => {
-    dispatch(deleteContactValue(contactId));
-  };
-
   useEffect(() => {
     const savedContacts = window.localStorage.getItem('saved-contacts');
 
     if (savedContacts == null) {
-      dispatch(selectContacts(contactsArray));
+      dispatch(fetchContacts(contactsArray));
     } else {
       if (JSON.parse(savedContacts).length > 0 && contacts.length === 0) {
-        dispatch(selectContacts(JSON.parse(savedContacts)));
+        dispatch(fetchContacts(JSON.parse(savedContacts)));
       }
     }
 
@@ -58,9 +42,9 @@ function App() {
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm onAdd={addContact} />
-      <SearchBox onChange={handleFilter} />
-      <ContactList contacts={filteredValue} onDelete={deleteContact} />
+      <ContactForm />
+      <SearchBox />
+      <ContactList contacts={filteredValue} />
     </div>
   );
 }

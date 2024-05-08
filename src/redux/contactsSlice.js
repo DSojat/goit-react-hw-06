@@ -4,13 +4,13 @@ const contactsSlice = createSlice({
   name: 'items',
   initialState: [],
   reducers: {
-    selectContacts(state, action) {
+    fetchContacts(state, action) {
       return (state = action.payload);
     },
-    addContactValue(state, action) {
+    addContact(state, action) {
       state.push(action.payload);
     },
-    deleteContactValue(state, action) {
+    deleteContact(state, action) {
       const index = state.findIndex(contact => contact.id === action.payload);
       state.splice(index, 1);
     },
@@ -18,6 +18,6 @@ const contactsSlice = createSlice({
 });
 
 // Експортуємо генератори екшенів та редюсер
-export const { addContactValue, deleteContactValue, selectContacts } =
+export const { addContact, deleteContact, fetchContacts } =
   contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
