@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { selectContacts } from '../redux/selectors';
 import { fetchContacts } from '../redux/contactsSlice';
@@ -19,19 +17,17 @@ function App() {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
-  useEffect(() => {
-    const savedContacts = window.localStorage.getItem('saved-contacts');
+  const savedContacts = JSON.parse(
+    window.localStorage.getItem('persist:savedContacts')
+  );
 
-    if (savedContacts == null) {
-      dispatch(fetchContacts(contactsArray));
-    } else {
-      if (JSON.parse(savedContacts).length > 0 && contacts.length === 0) {
-        dispatch(fetchContacts(JSON.parse(savedContacts)));
-      }
+  if (savedContacts == null) {
+    dispatch(fetchContacts(contactsArray));
+  } else {
+    if (JSON.parse(savedContacts.value).length > 0 && contacts.length === 0) {
+      dispatch(fetchContacts(JSON.parse(savedContacts)));
     }
-
-    window.localStorage.setItem('saved-contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  }
 
   return (
     <div>
