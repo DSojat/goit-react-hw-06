@@ -1,3 +1,7 @@
+.labelSpan {
+  color: teal;
+}
+
 .searchBox {
   display: flex;
   flex-direction: column;
