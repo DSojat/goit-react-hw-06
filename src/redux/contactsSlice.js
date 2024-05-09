@@ -23,6 +23,7 @@ const contactsSlice = createSlice({
   },
 });
 
-// Експортуємо генератори екшенів та редюсер
+// Експортуємо генератори екшенів, редюсер та селектор
 export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
+export const selectContacts = state => state.contacts.items;
